@@ -68,6 +68,9 @@ def test_run():
     beta_JAVA, alpha_JAVA = np.polyfit(daily_returns["JAVA"], daily_retuns["FAKE1"],1)
     plt.plot(dauily_retuns["JAVA"], beta_JAVA*daily_retuns["JAVA"] + alpha_JAVA, '-',color='r')
     plt.show()
+    
+    # Calculate corr
+    print(daily_returns.corr(method='pearson'))
     # Plot
     plot_data(df)
 
