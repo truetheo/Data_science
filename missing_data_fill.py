@@ -44,6 +44,11 @@ def plot_data(df_data):
     ax.set_ylabel("Price")
     plt.show()
 
+def compute_daily_returns(df):
+    daily_returns = df.copy()
+    daily_returns[1:] = (df[1:]/df[:-1].values) -1
+    daily_returns.ix[0,:] = 0
+    return daily_returns
 
 def test_run():
     """Function called by Test Run."""
@@ -52,13 +57,19 @@ def test_run():
     start_date = "2005-12-31"
     end_date = "2014-12-07"
     dates = pd.date_range(start_date, end_date)  # date range as index
-    df_data = get_data(symbol_list, dates)  # get data for each symbol
+    df = get_data(symbol_list, dates)  # get data for each symbol
 
     # Fill missing values
-    fill_missing_values(df_data)
-
+    fill_missing_values(df)
+    # Computing daily returns
+    daily_returns = compute_daily_returns(df)
+    # Scatterplot JAVA vs FAKE1
+    daily_returns.plot(kind="scatter", x="JAVA", y="FAKE1")
+    beta_JAVA, alpha_JAVA = np.polyfit(daily_returns["JAVA"], daily_retuns["FAKE1"],1)
+    plt.plot(dauily_retuns["JAVA"], beta_JAVA*daily_retuns["JAVA"] + alpha_JAVA, '-',color='r')
+    plt.show()
     # Plot
-    plot_data(df_data)
+    plot_data(df)
 
 
 if __name__ == "__main__":
